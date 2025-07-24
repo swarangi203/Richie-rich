@@ -38,18 +38,29 @@ function Chatbot() {
 
   return (
     <motion.div
-      className="bg-white rounded-lg shadow-lg p-4 h-96 flex flex-col"
+      className="bg-white/10 backdrop-blur-md border border-white/30 rounded-lg shadow-lg p-4 h-full flex flex-col"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
     >
       <div className="flex-1 overflow-y-auto mb-4">
-        {messages.map((msg, index) => (
-          <div key={index} className={`mb-2 ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
-            <span className={`inline-block p-2 rounded-lg ${msg.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
-              {msg.text}
-            </span>
+         {messages.length === 0 ? (
+          <div className="flex flex-col items-center justify-center text-gray-500 mt-20">
+            <img
+              src="/empty_chat.svg"
+              alt="No messages yet"
+              className="w-40 h-40 opacity-40"
+            />
+            <p className="mt-3">How may I help you?</p>
           </div>
-        ))}
+        ) : (
+          messages.map((msg, index) => (
+            <div key={index} className={`mb-2 w-full ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
+              <span className={`inline-block p-2 rounded-lg ${msg.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
+                {msg.text}
+              </span>
+            </div>
+          ))
+        )}
       </div>
       <div className="flex">
         <input
