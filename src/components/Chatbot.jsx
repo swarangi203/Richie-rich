@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { FiSend } from 'react-icons/fi';
 
 const openAIConfig = {
   apiKey: process.env.REACT_APP_OPENAI_API_KEY,
@@ -13,6 +14,7 @@ const Chatbot = () => {
   const [input, setInput] = useState('');
   const [userDetails, setUserDetails] = useState({});
   const [started, setStarted] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('');
 
   const qts = [
     "What is your name?",
@@ -22,6 +24,8 @@ const Chatbot = () => {
 
   const handleOptionClick = (option) => {
     setStarted(true);
+    setSelectedOption(option);
+
     if (option === 'Investments') {
       setMessages([{ text: "Great! Let's get started with your investment journey.", sender: 'bot' }]);
     } else {
@@ -53,6 +57,7 @@ const Chatbot = () => {
     setInput('');
     setStarted(false);
     setUserDetails({});
+    setSelectedOption('');
   };
 
   return (
@@ -61,7 +66,6 @@ const Chatbot = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
     >
-
       {/* Reset Button */}
       {started && (
         <div className="absolute top-2 right-2 z-10">
@@ -73,7 +77,6 @@ const Chatbot = () => {
           </button>
         </div>
       )}
-
 
       <div className="flex-1 overflow-y-auto mb-4 pt-10">
         {messages.length === 0 && !started ? (
@@ -109,22 +112,26 @@ const Chatbot = () => {
         )}
       </div>
 
-      {/* Show input only after "Investments" is clicked */}
-      {started && (
-        <div className="flex">
+      {/* Show input only for "Investments" */}
+      {started && selectedOption === 'Investments' && (
+        <div className="flex mt-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={t('chatPlaceholder') || "Type your message..."}
-            className="flex-1 p-2 border rounded-l-lg"
+            className="flex-1 p-2 rounded-l-lg bg-white/10 text-white placeholder-white/70 border border-white/30 backdrop-blur-md focus:outline-none"
             onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
           />
-          <button onClick={sendMessage} className="bg-blue-500 text-white p-2 rounded-r-lg">
-            Send
+          <button
+            onClick={sendMessage}
+            className="bg-white/10 text-white border border-white/30 backdrop-blur-md p-2 rounded-r-lg hover:bg-white/20 transition"
+          >
+            <FiSend size={18} />
           </button>
         </div>
       )}
+
     </motion.div>
   );
 };
