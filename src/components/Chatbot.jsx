@@ -12,6 +12,14 @@ function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
+  const [userDetails, setUserDetails] = useState({});
+
+  const qts = [
+    "What is your name?",
+    "What is your age?",
+    "What is your expense range?"
+  ];
+
   const sendMessage = async () => {
     if (!input.trim()) return;
     const userMessage = { text: input, sender: 'user' };
@@ -19,23 +27,6 @@ function Chatbot() {
     setInput('');
 
     try {
-      // Example Open AI API call (uncomment and configure with your key)
-      /*
-      const response = await fetch(openAIConfig.endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${openAIConfig.apiKey}`,
-        },
-        body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
-          messages: [{ role: 'user', content: input }],
-        }),
-      });
-      const data = await response.json();
-      const botResponse = { text: data.choices[0].message.content, sender: 'bot' };
-      */
-      // Mock response for demo
       const botResponse = { text: `You asked: "${input}". Here's a tip: Save 10% of your income monthly!`, sender: 'bot' };
       setMessages(prev => [...prev, botResponse]);
     } catch (error) {
