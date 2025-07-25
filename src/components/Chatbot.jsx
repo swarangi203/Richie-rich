@@ -4,11 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { FiSend } from 'react-icons/fi';
 import axios from 'axios';
 
-const openAIConfig = {
-  apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-  endpoint: 'https://api.openai.com/v1/chat/completions',
-};
-
 const Chatbot = () => {
   const { t } = useTranslation();
   const [messages, setMessages] = useState([]);
@@ -17,6 +12,7 @@ const Chatbot = () => {
   const [started, setStarted] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(-1);
+  const [loading, setLoading] = useState(false);
 
 
   const qts = [
@@ -37,11 +33,139 @@ const Chatbot = () => {
       setTimeout(() => {
         setMessages(prev => [...prev, { text: qts[0], sender: 'bot' }]);
         setCurrentQuestionIndex(0);
-      }, 600);
+      }, 1000);
     } else {
       setMessages([{ text: `You selected: ${option}. Please wait while we connect you...`, sender: 'bot' }]);
     }
   };
+
+  const fetchAiResponse = async () => {
+    setLoading(true);
+    const res = await axios.post('https://6c97406bc81d.ngrok-free.app/onboarding', {
+      "name": userDetails.q1 || "User",
+      "age": userDetails.q2 || "25",
+      "monthly_income": userDetails.q3 || "5000",
+      "monthly_expense": userDetails.q4 || "2000"
+    });
+
+    setMessages(prev => [...prev, { text: "Based on your inputs, here are some investment options I'd recommend for you:", sender: 'bot' }]);
+
+    // const res = {
+    //   "data": {
+    //     "message": "Choose your preferred investments from any risk category",
+    //     "low_risk": [
+    //       {
+    //         "instrument": "Fixed Deposit",
+    //         "investments": [
+    //           {
+    //             "name": "HDFC Bank FD",
+    //             "amount": 3000,
+    //             "predicted_return_5y": "6.5%"
+    //           },
+    //           {
+    //             "name": "SBI Bank FD",
+    //             "amount": 2000,
+    //             "predicted_return_5y": "6.7%"
+    //           }
+    //         ]
+    //       },
+    //       {
+    //         "instrument": "Gold Bonds",
+    //         "investments": [
+    //           {
+    //             "name": "Sovereign Gold Bond Scheme",
+    //             "amount": 3000,
+    //             "predicted_return_5y": "2.5% (plus gold price appreciation)"
+    //           }
+    //         ]
+    //       }
+    //     ],
+    //     "medium_risk": [
+    //       {
+    //         "instrument": "Mutual Funds",
+    //         "investments": [
+    //           {
+    //             "name": "SBI Bluechip Fund",
+    //             "amount": 8000,
+    //             "predicted_return_5y": "12%"
+    //           },
+    //           {
+    //             "name": "Axis Growth Opportunities Fund",
+    //             "amount": 5000,
+    //             "predicted_return_5y": "14%"
+    //           }
+    //         ]
+    //       },
+    //       {
+    //         "instrument": "REITs",
+    //         "investments": [
+    //           {
+    //             "name": "Embassy Office Parks REIT",
+    //             "amount": 4000,
+    //             "predicted_return_5y": "8%"
+    //           }
+    //         ]
+    //       }
+    //     ],
+    //     "high_risk": [
+    //       {
+    //         "instrument": "Stocks",
+    //         "investments": [
+    //           {
+    //             "name": "Reliance Industries Ltd.",
+    //             "amount": 7000,
+    //             "predicted_return_5y": "15%"
+    //           },
+    //           {
+    //             "name": "Tata Motors Ltd.",
+    //             "amount": 4000,
+    //             "predicted_return_5y": "18%"
+    //           }
+    //         ]
+    //       },
+    //       {
+    //         "instrument": "Crypto",
+    //         "investments": [
+    //           {
+    //             "name": "Bitcoin",
+    //             "amount": 6000,
+    //             "predicted_return_5y": "25%"
+    //           },
+    //           {
+    //             "name": "Ethereum",
+    //             "amount": 3000,
+    //             "predicted_return_5y": "30%"
+    //           }
+    //         ]
+    //       }
+    //     ]
+    //   }
+    // }
+
+    const lowRiskInvestments = res.data.low_risk.map(item => {
+      const investments = item.investments.map(inv => `${inv.name} - ₹${inv.amount} (${inv.predicted_return_5y})`).join(', ');
+      return `• ${item.instrument}: ${investments}`;
+    }).join('<br/><br/>');
+
+    setMessages(prev => [...prev, { text: "Here are some low-risk investment options: <br/><br /> " + lowRiskInvestments, sender: 'bot' }]);
+
+    const mediumRiskInvestments = res.data.medium_risk.map(item => {
+      const investments = item.investments.map(inv => `${inv.name} - ₹${inv.amount} (${inv.predicted_return_5y})`).join(', ');
+      return `• ${item.instrument}: ${investments}`;
+    }).join('<br/><br/>');
+
+    setMessages(prev => [...prev, { text: "Here are some medium-risk investment options: <br/><br /> " + mediumRiskInvestments, sender: 'bot' }]);
+
+    const highRiskInvestments = res.data.high_risk.map(item => {
+      const investments = item.investments.map(inv => `${inv.name} - ₹${inv.amount} (${inv.predicted_return_5y})`).join(', ');
+      return `• ${item.instrument}: ${investments}`;
+    }).join('<br/><br/>');
+
+    setMessages(prev => [...prev, { text: "Here are some high-risk investment options: <br/><br /> " + highRiskInvestments, sender: 'bot' }]);
+
+    setLoading(false);
+
+  }
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -63,27 +187,9 @@ const Chatbot = () => {
         }, 500);
       } else {
         setCurrentQuestionIndex(-1);
-        setTimeout(() => {
-          setMessages(prev => [...prev, {
-            text: `Thanks for the info! You're all set. ✅`,
-            sender: 'bot',
-          }]);
-        }, 600);
-        // axios.post('https://556364d4df0f.ngrok-free.app')
+        await fetchAiResponse();
       }
       return;
-    }
-
-    try {
-      const botResponse = {
-        text: `You asked: "${trimmedInput}". Here's a tip: Save 10% of your income monthly!`,
-        sender: 'bot',
-      };
-      setMessages(prev => [...prev, botResponse]);
-    } catch (error) {
-      console.error('Error calling Open AI API:', error);
-      const errorResponse = { text: 'Sorry, something went wrong. Try again!', sender: 'bot' };
-      setMessages(prev => [...prev, errorResponse]);
     }
   };
 
@@ -101,7 +207,7 @@ const Chatbot = () => {
       className="relative bg-grey/10 backdrop-blur-md border border-grey/30 rounded-lg shadow-lg p-4 h-full flex flex-col"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      style={{height:'100%'}}
+      style={{ height: '100%' }}
     >
       {/* Reset Button */}
       {started && (
@@ -140,11 +246,24 @@ const Chatbot = () => {
           <div className="flex flex-col">
             {messages.map((msg, index) => (
               <div key={index} className={`mb-2 w-full ${msg.sender === 'user' ? 'text-right' : 'text-left'}`}>
-                <span className={`inline-block p-2 rounded-lg ${msg.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
-                  {msg.text}
+                <span
+                  className={`inline-block p-2 rounded-lg ${msg.sender === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                  {...(msg.sender === 'bot'
+                    ? { dangerouslySetInnerHTML: { __html: msg.text } }
+                    : {})}
+                >
+                  {msg.sender === 'user' ? msg.text : null}
                 </span>
               </div>
+
             ))}
+            {loading && (
+              <div className="mb-2 w-full text-left">
+                <span className="inline-block p-2 rounded-lg bg-gray-200 animate-pulse text-gray-500">
+                  Thinking...
+                </span>
+              </div>
+            )}
           </div>
         )}
       </div>
