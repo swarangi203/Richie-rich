@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function NewsCard() {
-  const { t } = useTranslation();
 
+
+function NewsCard() {
+  const { t,i18n } = useTranslation();
+  const currentLang = i18n.language;
   const newsItems = [
     "The curious fox jumped over the lazy dog, then ran swiftly through the forest.",
     "Scientists discover a new species of bird in the Amazon.",
@@ -29,19 +31,26 @@ function NewsCard() {
 
   useEffect(()=>{
     handleSearch();
-  },[]);
+  },[currentLang]);
 
   const handleSearch = async () => {
     // alert(`You searched for: ${search}`);
 
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/tts',
-        { search },
-        { responseType: 'blob' }
-      );
-        setNews(response.data);
-    } catch (error) {
+  const response = await axios.get(
+    `http://127.0.0.1:8000/financial-news?topic=${search ===''?'finance':search}&lang=${currentLang}`
+  );
+
+  console.log(response.data);  // Should be {news1: "...", news2: "...", ...}
+
+  const formattedNews = Object.values(response.data).map(
+    (item, index) => `${index + 1}. ${item}`
+  );
+
+  setNews(formattedNews);
+  // console.log(formattedNews);
+
+} catch (error) {
       console.error('Error:', error);
       alert('Something went wrong');
     }
