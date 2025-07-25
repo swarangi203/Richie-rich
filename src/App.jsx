@@ -30,7 +30,7 @@ function App() {
   return (
     <div className='flex flex-col w-screen'>
     <Header/>
-    <div className="w-screen h-screen bg-gradient-to-b from-white-900 via-white-800 to-white-900 p-4 overflow-auto">
+    <div className="bg-gradient-to-b from-white-900 via-white-800 to-white-900 p-4 overflow-auto">
       <div >
               
         <motion.h1
