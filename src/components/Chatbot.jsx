@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { FiSend } from 'react-icons/fi';
+import axios from 'axios';
 
 const openAIConfig = {
   apiKey: process.env.REACT_APP_OPENAI_API_KEY,
@@ -15,11 +16,14 @@ const Chatbot = () => {
   const [userDetails, setUserDetails] = useState({});
   const [started, setStarted] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(-1);
+
 
   const qts = [
-    "What is your name?",
-    "What is your age?",
-    "What is your expense range?"
+    "Can I know your name to personalize our conversation?",
+    "Thanks! Just to tailor advice better—how old are you?",
+    "Got it. What’s your estimated monthly income?",
+    "And roughly how much do you spend each month?"
   ];
 
   const handleOptionClick = (option) => {
@@ -27,7 +31,13 @@ const Chatbot = () => {
     setSelectedOption(option);
 
     if (option === 'Investments') {
-      setMessages([{ text: "Great! Let's get started with your investment journey.", sender: 'bot' }]);
+      setMessages([
+        { text: "Great! Let's get started with your investment journey.", sender: 'bot' },
+      ]);
+      setTimeout(() => {
+        setMessages(prev => [...prev, { text: qts[0], sender: 'bot' }]);
+        setCurrentQuestionIndex(0);
+      }, 600);
     } else {
       setMessages([{ text: `You selected: ${option}. Please wait while we connect you...`, sender: 'bot' }]);
     }
@@ -35,13 +45,38 @@ const Chatbot = () => {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-    const userMessage = { text: input, sender: 'user' };
+
+    const trimmedInput = input.trim();
+    const userMessage = { text: trimmedInput, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
 
+    if (selectedOption === 'Investments' && currentQuestionIndex >= 0 && currentQuestionIndex < qts.length) {
+      const key = `q${currentQuestionIndex + 1}`;
+      setUserDetails(prev => ({ ...prev, [key]: trimmedInput }));
+
+      const nextIndex = currentQuestionIndex + 1;
+      if (nextIndex < qts.length) {
+        setTimeout(() => {
+          setMessages(prev => [...prev, { text: qts[nextIndex], sender: 'bot' }]);
+          setCurrentQuestionIndex(nextIndex);
+        }, 500);
+      } else {
+        setCurrentQuestionIndex(-1);
+        setTimeout(() => {
+          setMessages(prev => [...prev, {
+            text: `Thanks for the info! You're all set. ✅`,
+            sender: 'bot',
+          }]);
+        }, 600);
+        // axios.post('https://556364d4df0f.ngrok-free.app')
+      }
+      return;
+    }
+
     try {
       const botResponse = {
-        text: `You asked: "${input}". Here's a tip: Save 10% of your income monthly!`,
+        text: `You asked: "${trimmedInput}". Here's a tip: Save 10% of your income monthly!`,
         sender: 'bot',
       };
       setMessages(prev => [...prev, botResponse]);
@@ -51,6 +86,7 @@ const Chatbot = () => {
       setMessages(prev => [...prev, errorResponse]);
     }
   };
+
 
   const resetChat = () => {
     setMessages([]);
@@ -62,7 +98,7 @@ const Chatbot = () => {
 
   return (
     <motion.div
-      className="relative bg-white/10 backdrop-blur-md border border-white/30 rounded-lg shadow-lg p-4 h-full flex flex-col"
+      className="relative bg-grey/10 backdrop-blur-md border border-grey/30 rounded-lg shadow-lg p-4 h-full flex flex-col"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       style={{height:'100%'}}
@@ -72,20 +108,20 @@ const Chatbot = () => {
         <div className="absolute top-2 right-2 z-10">
           <button
             onClick={resetChat}
-            className="text-sm text-white border border-white/30 px-3 py-1 rounded backdrop-blur-md bg-white/10 hover:bg-white/20 transition flex items-center gap-1 shadow-md"
+            className="text-sm text-blue-500 border border-blue-500 px-3 py-1 rounded backdrop-blur-md bg-white/10 hover:bg-white/20 transition flex items-center gap-1 shadow-md"
           >
             &#x21bb; <span>Try Again</span>
           </button>
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto mb-4 pt-10">
+      <div className="flex-1 overflow-y-auto mb-4 pt-10 min-h-0 max-h-[400px]">
         {messages.length === 0 && !started ? (
-          <div className="flex flex-col items-center justify-center text-gray-500 mt-20">
+          <div className="flex flex-col items-center justify-center text-gray-500 mt-16">
             <img
               src="/empty_chat.svg"
               alt="No messages yet"
-              className="w-40 h-40 opacity-50"
+              className="w-40 h-40 opacity-80"
             />
             <p className="mt-3 mb-5">How may I help you?</p>
             <div className="flex gap-3">
@@ -121,12 +157,12 @@ const Chatbot = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={t('chatPlaceholder') || "Type your message..."}
-            className="flex-1 p-2 rounded-l-lg bg-white/10 text-white placeholder-white/70 border border-white/30 backdrop-blur-md focus:outline-none"
+            className="flex-1 p-2 rounded-l-lg bg-white/10 text-blue-500 placeholder-blue/70 border border-blue-500 backdrop-blur-md focus:outline-none"
             onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
           />
           <button
             onClick={sendMessage}
-            className="bg-white/10 text-white border border-white/30 backdrop-blur-md p-2 rounded-r-lg hover:bg-white/20 transition"
+            className="bg-white/10 text-blue-500 border border-blue-500 backdrop-blur-md p-2 rounded-r-lg hover:bg-white/20 transition min-w-[50px] flex items-center justify-center"
           >
             <FiSend size={18} />
           </button>

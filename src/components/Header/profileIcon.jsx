@@ -49,6 +49,9 @@ const ProfileIcon = () => {
             <option value="en">English</option>
             <option value="de">Deutsche</option>
             <option value="hi">Hindi</option>
+            <option value="mr">Marathi</option>
+            <option value="gu">Gujrati</option>
+
           </select>
           <button className="block px-4 py-2 hover:bg-gray-100">{t('accessibility')}</button>
           <a href="#" className="block px-4 py-2 hover:bg-gray-100">
