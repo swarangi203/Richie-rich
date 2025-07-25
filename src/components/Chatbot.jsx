@@ -62,7 +62,7 @@ const Chatbot = () => {
 
   return (
     <motion.div
-      className="relative bg-white/10 backdrop-blur-md border border-white/30 rounded-lg shadow-lg p-4 h-full flex flex-col"
+      className="relative bg-grey/10 backdrop-blur-md border border-grey/30 rounded-lg shadow-lg p-4 h-full flex flex-col"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       style={{height:'100%'}}

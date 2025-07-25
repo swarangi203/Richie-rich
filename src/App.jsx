@@ -10,7 +10,7 @@ import CaList from './components/Header/CaCard';
 
 function App() {
   const { t } = useTranslation();
-  const [model, setModel] = useState(1);
+  const [model, setModel] = useState(2);
 
   const showModel = (id) =>{
     switch(id){
@@ -28,10 +28,10 @@ function App() {
   }
 
   return (
-    <div className='flex flex-col h-screen'>
+    <div className='flex flex-col w-screen'>
     <Header/>
-    <div className="flex-1 bg-gradient-to-b from-white-900 via-white-800 to-white-900 p-4 overflow-auto">
-      <div className="max-w-4xl mx-auto h-full flex flex-col">
+    <div className="w-screen h-screen bg-gradient-to-b from-white-900 via-white-800 to-white-900 p-4 overflow-auto">
+      <div >
               
         <motion.h1
           className="text-3xl font-bold text-center mb-6"

@@ -26,6 +26,54 @@ const resources = {
       logout:'Logout'
     },
   },
+  mr: {
+    translation: {
+      welcome: 'तुमच्या आर्थिक मार्गदर्शकाचे स्वागत आहे!',
+      chatPlaceholder: 'तुमच्या आर्थिक बाबतीत काहीही विचारा...',
+      budgetTitle: 'तुमचा बजेट',
+      challengeTitle: 'प्रश्नमंजुषा वेळ!!',
+      learnTitle: 'शिका',
+      settings: 'सेटिंग्ज',
+      accessibility: 'सुलभता',
+      question: '५ दिवसांत ₹५०० वाचवा',
+      quiz: 'एक जलद क्विझ घ्या!',
+      news: 'बातम्या',
+      searchNews: 'बातम्या शोधा...',
+      send: 'पाठवा',
+      search: 'शोधा',
+      testYourKnowledge: 'तुमच्या ज्ञानाची चाचणी घेऊया',
+      previous: 'मागील',
+      next: 'पुढील',
+      profile: 'प्रोफाईल',
+      setting: 'सेटिंग',
+      logout: 'बाहेर पडा'
+    }
+  },
+  
+  gu: {
+    translation: {
+      welcome: 'તમારું ફાઈનાન્સિયલ કોચમાં સ્વાગત છે!',
+      chatPlaceholder: 'તમારા નાણાં અંગે કંઈ પણ પૂછો...',
+      budgetTitle: 'તમારું બજેટ',
+      challengeTitle: 'પ્રશ્નોત્તરી સમય!!',
+      learnTitle: 'શીખો',
+      settings: 'સેટિંગ્સ',
+      accessibility: 'અક્ષમતા સહાયકતા',
+      question: '૫ દિવસમાં ₹૫૦૦ બચાવો',
+      quiz: 'ઝડપી ક્વિઝ લો!',
+      news: 'સમાચાર',
+      searchNews: 'સમાચાર શોધો...',
+      send: 'મોકલો',
+      search: 'શોધો',
+      testYourKnowledge: 'ચાલો તમારું જ્ઞાન તપાસીએ',
+      previous: 'પાછળનું',
+      next: 'આગળનું',
+      profile: 'પ્રોફાઇલ',
+      setting: 'સેટિંગ',
+      logout: 'લૉગઆઉટ કરો'
+    }
+  },
+
   hi: {
     translation: {
       welcome: 'आपके वित्तीय कोच में आपका स्वागत है!',
