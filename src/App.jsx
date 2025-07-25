@@ -6,11 +6,12 @@ import Chatbot from './components/Chatbot';
 import Header from './components/Header/header';
 import NewsCard from './components/NewsCard';
 import CaList from './components/Header/CaCard';
+import ITRCard from './components/Header/ITRCard';
 
 
 function App() {
   const { t } = useTranslation();
-  const [model, setModel] = useState(2);
+  const [model, setModel] = useState(3);
 
   const showModel = (id) =>{
     switch(id){
@@ -21,6 +22,8 @@ function App() {
       </div>)
       case 2:
         return <CaList/>;
+      case 3:
+        return <ITRCard/>;
       default:
       break;
     }
@@ -46,7 +49,7 @@ function App() {
            {showModel(model)}
           </div>
           <div>
-            <Chatbot />
+            <Chatbot setModel={setModel} />
           </div>
         </div>
       </div>

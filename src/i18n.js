@@ -23,7 +23,9 @@ const resources = {
       next: 'Next',
       profile:'Profile',
       setting: 'Setting',
-      logout:'Logout'
+      logout:'Logout',
+      caListText:'Showing available Chartered Accountants near you.',
+
     },
   },
   mr: {
@@ -46,10 +48,12 @@ const resources = {
       next: 'पुढील',
       profile: 'प्रोफाईल',
       setting: 'सेटिंग',
-      logout: 'बाहेर पडा'
+      logout: 'बाहेर पडा',
+      caListText: 'आपल्या जवळील उपलब्ध चार्टर्ड अकाउंटंट्स दाखवत आहोत.'
+
     }
   },
-  
+
   gu: {
     translation: {
       welcome: 'તમારું ફાઈનાન્સિયલ કોચમાં સ્વાગત છે!',
@@ -70,7 +74,9 @@ const resources = {
       next: 'આગળનું',
       profile: 'પ્રોફાઇલ',
       setting: 'સેટિંગ',
-      logout: 'લૉગઆઉટ કરો'
+      logout: 'લૉગઆઉટ કરો',
+      caListText: 'આસપાસ ઉપલબ્ધ ચાર્ટર્ડ એકાઉન્ટન્ટ્સ બતાવવામાં આવી રહ્યા છે.'
+
     }
   },
 
@@ -94,7 +100,9 @@ const resources = {
       next:'अगला',
       porfile:'प्रोफ़ाइल',
       setting: 'सेटिंग',
-      logout: 'लॉगआउट' 
+      logout: 'लॉगआउट' ,
+      caListText: 'आपके पास उपलब्ध चार्टर्ड अकाउंटेंट्स दिखाए जा रहे हैं।'
+
     },
   },
   de: {
@@ -117,7 +125,8 @@ const resources = {
       next: 'Weiter',
       profile:'Profil',
       setting: 'Einstellung',
-      logout: 'Abmelden'
+      logout: 'Abmelden',
+      caListText: 'Verfügbare Wirtschaftsprüfer in Ihrer Nähe werden angezeigt.'
 
     }
   },

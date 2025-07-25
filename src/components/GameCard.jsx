@@ -126,9 +126,9 @@ function GameCard() {
 
                   if (selectedOption !== null) {
                     if (isCorrect) {
-                      bgColor = "green";
+                      bgColor = "rgba(0, 128, 0, 0.5)";
                     } else if (isSelected) {
-                      bgColor = "red";
+                      bgColor = "rgba(255, 0, 0, 0.5)";
                     }
                   }
 
