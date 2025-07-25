@@ -5,7 +5,7 @@ const resources = {
   en: {
     translation: {
       welcome: 'Welcome to your Financial Coach!',
-      chatPlaceholder: 'Ask me anything about your finances...',
+      chatPlaceholder: '  Ask me anything about your finances...',
       budgetTitle: 'Your Budget',
       challengeTitle: 'Quiz Time!!',
       learnTitle: 'Learn',
