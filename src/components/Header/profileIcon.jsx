@@ -45,6 +45,7 @@ const ProfileIcon = () => {
             onChange={(e) => changeLanguage(e.target.value)}
             className="block px-4 py-2 hover:bg-gray-100"
           >
+            <option value="en">Default</option>
             <option value="en">English</option>
             <option value="de">Deutsche</option>
             <option value="hi">Hindi</option>
