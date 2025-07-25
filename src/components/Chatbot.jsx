@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { FiSend } from 'react-icons/fi';
 import axios from 'axios';
 
-const Chatbot = () => {
+const Chatbot = ({ setModel }) => {
   const { t } = useTranslation();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -26,18 +26,26 @@ const Chatbot = () => {
     setStarted(true);
     setSelectedOption(option);
 
-    if (option === 'Investments') {
+    if (option === 'CA Listings') {
+      setModel(2); // 👈 This sets the model in App.js
+      setMessages([{ text: `${t("caListText")}`, sender: 'bot' }]);
+    } else if (option === 'Investments') {
       setMessages([
         { text: "Great! Let's get started with your investment journey.", sender: 'bot' },
       ]);
       setTimeout(() => {
         setMessages(prev => [...prev, { text: qts[0], sender: 'bot' }]);
         setCurrentQuestionIndex(0);
-      }, 1000);
+      }, 1100);
+    } else if (option == 'Home') {
+      setModel(1);
+      resetChat
     } else {
-      setMessages([{ text: `You selected: ${option}. Please wait while we connect you...`, sender: 'bot' }]);
+      setModel(3); // 👈 This sets the model in App.js
+      setMessages([{ text: ` Showing available ITR resources for your asistance.`, sender: 'bot' }]);
     }
   };
+
 
   const fetchAiResponse = async () => {
     setLoading(true);
@@ -201,22 +209,39 @@ const Chatbot = () => {
     setUserDetails({});
     setSelectedOption('');
   };
+  const resetChatHome = () => {
+    setMessages([]);
+    setInput('');
+    setStarted(false);
+    setUserDetails({});
+    setSelectedOption('');
+    setModel(1);
+  };
 
   return (
     <motion.div
-      className="relative bg-grey/10 backdrop-blur-md border border-grey/30 rounded-lg shadow-lg p-4 h-full flex flex-col"
+      className="relative bg-blue-50 border border-blue-200 rounded-lg shadow-lg p-4 h-full flex flex-col"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       style={{ height: '100%' }}
     >
       {/* Reset Button */}
       {started && (
-        <div className="absolute top-2 right-2 z-10">
+        <div className="top-2 right-2 z-10 flex" style={{
+          width: "100%",
+          justifyContent: "space-between",
+        }}>
+          <button
+            onClick={resetChatHome}
+            className="text-sm text-white border border-blue-800 px-3 py-1 rounded bg-blue-700 hover:bg-blue-600 transition flex items-center gap-1 shadow-md"
+          >
+            &#x21bb; <span>Home</span>
+          </button>
           <button
             onClick={resetChat}
             className="text-sm text-blue-500 border border-blue-500 px-3 py-1 rounded backdrop-blur-md bg-white/10 hover:bg-white/20 transition flex items-center gap-1 shadow-md"
           >
-            &#x21bb; <span>Try Again</span>
+            &#x21bb; <span>Go back</span>
           </button>
         </div>
       )}
@@ -231,11 +256,11 @@ const Chatbot = () => {
             />
             <p className="mt-3 mb-5">How may I help you?</p>
             <div className="flex gap-3">
-              {['CA Listings', 'Investments', 'ITR Filing'].map((option) => (
+              {['Home', 'CA Listings', 'Investments', 'ITR Filing'].map((option) => (
                 <button
                   key={option}
                   onClick={() => handleOptionClick(option)}
-                  className="border border-white-500 text-white-500 px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition"
+                  className="border border-blue-500 text-blue-500 px-4 py-2 rounded hover:bg-blue-500 hover:text-white transition"
                 >
                   {option}
                 </button>
@@ -268,7 +293,7 @@ const Chatbot = () => {
         )}
       </div>
 
-      {/* Show input only for "Investments" */}
+      {/* Input Box */}
       {started && selectedOption === 'Investments' && (
         <div className="flex mt-2">
           <input
@@ -281,13 +306,11 @@ const Chatbot = () => {
           />
           <button
             onClick={sendMessage}
-            className="bg-white/10 text-blue-500 border border-blue-500 backdrop-blur-md p-2 rounded-r-lg hover:bg-white/20 transition min-w-[50px] flex items-center justify-center"
-          >
+            className="bg-white/10 text-blue-500 border border-blue-500 backdrop-blur-md p-2 rounded-r-lg hover:bg-white/20 transition min-w-[50px] flex items-center justify-center">
             <FiSend size={18} />
           </button>
         </div>
       )}
-
     </motion.div>
   );
 };
