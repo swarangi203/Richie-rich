@@ -47,9 +47,10 @@ function Chatbot() {
 
   return (
     <motion.div
-      className="bg-white rounded-lg shadow-lg p-4 h-96 flex flex-col"
+      className="h-full bg-white rounded-lg shadow-lg p-4 h-96 flex flex-col"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
+      style={{height:'100%'}}
     >
       <div className="flex-1 overflow-y-auto mb-4">
         {messages.map((msg, index) => (
@@ -69,7 +70,7 @@ function Chatbot() {
           className="flex-1 p-2 border rounded-l-lg"
           onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
         />
-        <button onClick={sendMessage} className="bg-blue-500 text-white p-2 rounded-r-lg">Send</button>
+        <button onClick={sendMessage} className="bg-blue-500 text-white p-2 rounded-r-lg">{t('send')}</button>
       </div>
     </motion.div>
   );

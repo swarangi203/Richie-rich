@@ -4,9 +4,9 @@ import ProfileIcon from './profileIcon';
 
 const Header = () => {
   return (
-    <div className="flex items-center justify-between p-2 bg-blue-600 text-white shadow-md">
+    <div className="flex items-center justify-between p-2  text-white shadow-md" style={{backgroundColor:'#0963D1'}}>
         <h2 style={{fontWeight: 'bold'}}>Richie Rich</h2>
-      <NavItems />
+      {/* <NavItems /> */}
       <ProfileIcon/>
     </div>
   );

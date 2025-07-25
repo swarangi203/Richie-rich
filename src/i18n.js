@@ -7,12 +7,23 @@ const resources = {
       welcome: 'Welcome to your Financial Coach!',
       chatPlaceholder: 'Ask me anything about your finances...',
       budgetTitle: 'Your Budget',
-      challengeTitle: 'Savings Challenge',
+      challengeTitle: 'Quiz Time!!',
       learnTitle: 'Learn',
       settings: 'Settings',
       accessibility: 'Accessibility',
-      save: 'Save ₹500 in 5 days',
+      question: 'Save ₹500 in 5 days',
       quiz: 'Take a quick quiz!',
+      news: 'NEWS',
+      searchNews:'Search News...',
+      send: 'Send',
+      search: 'Search',
+      send:'Send',
+      testYourKnowledge: 'Lets Test your knowledge',
+      previous: 'Previous',
+      next: 'Next',
+      profile:'Profile',
+      setting: 'Setting',
+      logout:'Logout'
     },
   },
   hi: {
@@ -24,10 +35,45 @@ const resources = {
       learnTitle: 'सीखें',
       settings: 'सेटिंग्स',
       accessibility: 'पहुंच',
-      save: '5 दिनों में ₹500 बचाएं',
+      question: '5 दिनों में ₹500 बचाएं',
+      news:'समाचार',
+      searchNews:'समाचार खोजें...',
       quiz: 'एक त्वरित क्विज़ लें!',
+      search: 'खोजें',
+      send: 'भेजें',
+      testYourKnowledge:'चलिए आपके ज्ञान की परीक्षा लेते हैं',
+      previous:'पिछला',
+      next:'अगला',
+      porfile:'प्रोफ़ाइल',
+      setting: 'सेटिंग',
+      logout: 'लॉगआउट' 
     },
   },
+  de: {
+    translation: {
+      welcome: 'Willkommen bei deinem Finanzcoach!',
+      chatPlaceholder: 'Frag mich alles über deine Finanzen...',
+      budgetTitle: 'Dein Budget',
+      challengeTitle: 'Quizzeit!!',
+      learnTitle: 'Lernen',
+      settings: 'Einstellungen',
+      accessibility: 'Barrierefreiheit',
+      question: 'Spare ₹500 in 5 Tagen',
+      quiz: 'Mach ein schnelles Quiz!',
+      news: 'NACHRICHTEN',
+      searchNews: 'Nachrichten suchen...',
+      send: 'Senden',
+      search: 'Suchen',
+      testYourKnowledge: 'Testen wir dein Wissen',
+      previous: 'Zurück',
+      next: 'Weiter',
+      profile:'Profil',
+      setting: 'Einstellung',
+      logout: 'Abmelden'
+
+    }
+  },
+  
 };
 
 i18n
